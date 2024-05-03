@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   test:
-    if: ${{ github.repository == 'ProgramEquity/amplify' }}
+    if: ${{ github.repository == 'eprice555/amplify_cicd_test' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -27,6 +27,17 @@ jobs:
           node-version-file: '.node-version'
           cache: npm
 
+      - name: Import Secrets
+        uses: hashicorp/vault-action@v2.4.0
+        with:
+         url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.c
+         token: ${{ secrets.VAULT_TOKEN }}
+         caCertificate: ${{ secrets.VAULT_CA_CERT }}
+         secrets: |
+          secret/test TEST_CICERO_API_KEY | TEST_CICERO_API_KEY ;
+          secret/test TEST_LOB_API_KEY | TEST_LOB_API_KEY ;
+          secret/test TEST_STRIPE_SECRET_KEY | TEST_STRIPE_SECRET_KEY;
+
       - name: Install dependencies
         run: npm ci
 
@@ -34,13 +45,14 @@ jobs:
         run: npm test -- server/__tests__/integration/
         env:
           # Cicero API key
-          CICERO_API_KEY: ${{ secrets.TEST_CICERO_API_KEY }}
+          CICERO_API_KEY: ${{ steps.vault.outputs.TEST_CICERO_API_KEY }}
           # Test environment Lob API key
-          LOB_API_KEY: ${{ secrets.TEST_LOB_API_KEY }}
+          LOB_API_KEY: ${{ steps.vault.outputs.TEST_LOB_API_KEY }}
           # Stripe test secret key
-          STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+          STRIPE_SECRET_KEY: ${{ steps.vault.outputs.TEST_STRIPE_SECRET_KEY }}
           # Auth0 authentication parameters with nonsensical sample values
           SERVER_PORT: 8080
           CLIENT_ORIGIN_URL: http://localhost:8080
           AUTH0_AUDIENCE: your_Auth0_identifier_value
           AUTH0_DOMAIN: your_Auth0_domain
+
