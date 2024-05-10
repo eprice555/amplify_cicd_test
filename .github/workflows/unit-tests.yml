@@ -25,7 +25,7 @@ jobs:
       - name: Import Secrets
         uses: hashicorp/vault-action@v2.4.0
         with:
-         url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.com:8200/
+         url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.cloud:8200/
          token: ${{ secrets.VAULT_TOKEN }}
          caCertificate: ${{ secrets.VAULT_CA_CERT }}
          secrets: |
