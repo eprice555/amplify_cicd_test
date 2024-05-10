@@ -30,7 +30,8 @@ jobs:
          namespace: admin/eprice555-test-namespace/
          #caCertificate: ${{ secrets.VAULT_CA_CERT }}
          secrets: |    
-             secret/data/test/TEST_LOB_API_KEY api-key
+           secret/data/test/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
+         #   secret/data/test/TEST_LOB_API_KEY api-key
          # secret/test TEST_CICERO_API_KEY | TEST_CICERO_API_KEY ;
          # secret/test TEST_STRIPE_SECRET_KEY | TEST_STRIPE_SECRET_KEY;
          # secret/test AUTH0_AUDIENCE | AUTH0_AUDIENCE ;
