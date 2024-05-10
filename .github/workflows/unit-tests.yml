@@ -25,18 +25,20 @@ jobs:
       - name: Import Secrets
         uses: hashicorp/vault-action@v2.4.0
         with:
-         url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.com/
+         url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.com:8200/
          token: ${{ secrets.VAULT_TOKEN }}
          caCertificate: ${{ secrets.VAULT_CA_CERT }}
          secrets: |
           secret/test TEST_CICERO_API_KEY | TEST_CICERO_API_KEY ;
           secret/test TEST_LOB_API_KEY | TEST_LOB_API_KEY ;
           secret/test TEST_STRIPE_SECRET_KEY | TEST_STRIPE_SECRET_KEY;
+          secret/test AUTH0_AUDIENCE | AUTH0_AUDIENCE ;
+          secret/test AUTH0_DOMAIN | AUTH0_DOMAIN ;
           
       - name: Install dependencies
         run: npm ci
       - name: Run tests
-        run: npm test -- server/__tests__/integration/
+        run: npm test -- server/__tests__/unit/
         env:
           # Cicero API key
           CICERO_API_KEY: ${{ steps.vault.outputs.TEST_CICERO_API_KEY }}
