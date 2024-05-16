@@ -31,10 +31,10 @@ jobs:
          #caCertificate: ${{ secrets.VAULT_CA_CERT }}
          secrets: |    
            secret/data/test/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
-           secret/data/test/TEST_CICERO_API_KEY api-key | TEST_CICERO_API_KEY ;
-       #    secret/data/test/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
-       #    secret/data/test/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
-       #    secret/data/test/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
+           secret/data/test/CICERO_API_KEY api-key | CICERO_API_KEY ;
+           secret/data/test/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
+           secret/data/test/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
+           secret/data/test/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
          #   secret/data/test/TEST_LOB_API_KEY api-key
          # secret/test TEST_CICERO_API_KEY | TEST_CICERO_API_KEY ;
          # secret/test TEST_STRIPE_SECRET_KEY | TEST_STRIPE_SECRET_KEY;
@@ -47,7 +47,7 @@ jobs:
         run: npm test -- server/__tests__/unit/
         env:
           # Cicero API key
-          CICERO_API_KEY: ${{ steps.vault.outputs.TEST_CICERO_API_KEY }}
+          CICERO_API_KEY: ${{ steps.vault.outputs.CICERO_API_KEY }}
           # Test environment Lob API key
           LOB_API_KEY: ${{ steps.vault.outputs.TEST_LOB_API_KEY }}
           # Stripe test secret key
