@@ -4,7 +4,7 @@ on:
   pull_request:
 permissions:
   contents: read
-  id-token: write
+#  id-token: write
   
 concurrency:
   group: >-
@@ -15,6 +15,9 @@ jobs:
   test:
     if: ${{ github.repository == 'eprice555/amplify_cicd_test' }}
     runs-on: ubuntu-latest
+        permissions:
+           contents: read
+           id-token: write
     timeout-minutes: 5
     steps:
       - name: Check out repo
