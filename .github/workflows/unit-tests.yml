@@ -33,15 +33,15 @@ jobs:
         with:
             method: jwt
             url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.cloud:8200/
-            namespace: admin/eprice555-test-namespace
+            namespace: admin/user21
             role: demo
             secrets: |    
-             secret/data/test/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
-             secret/data/test/CICERO_API_KEY api-key | CICERO_API_KEY ;
-             secret/data/test/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
-             secret/data/test/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
-             secret/data/test/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
-
+             data/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
+             data/CICERO_API_KEY api-key | CICERO_API_KEY ;
+             data/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
+             data/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
+             data/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
+             
 #      - name: Import Secrets
 #         uses: hashicorp/vault-action@v2.4.0
 #         with:
