@@ -2,7 +2,7 @@ name: Unit Tests
 on:
   workflow_dispatch:
   pull_request:
-permissions:
+  permissions:
   contents: read
 #  id-token: write
   
@@ -15,9 +15,9 @@ jobs:
   test:
     if: ${{ github.repository == 'eprice555/amplify_cicd_test' }}
     runs-on: ubuntu-latest
-        permissions:
-           contents: read
-           id-token: write
+    permissions:
+        contents: read
+        id-token: write
     timeout-minutes: 5
     steps:
       - name: Check out repo
@@ -27,20 +27,35 @@ jobs:
         with:
           node-version-file: .node-version
           cache: npm
-      - name: Import Secrets
+
+      - name: Retrieve secret from Vault
         uses: hashicorp/vault-action@v2.4.0
         with:
-         url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.cloud:8200/
-         role: demo
-         method: jwt
-         namespace: admin/eprice555-test-namespace/
-         #caCertificate: ${{ secrets.VAULT_CA_CERT }}
-         secrets: |    
-           secret/data/test/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
-           secret/data/test/CICERO_API_KEY api-key | CICERO_API_KEY ;
-           secret/data/test/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
-           secret/data/test/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
-           secret/data/test/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
+            method: jwt
+            url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.cloud:8200/
+            namespace: admin/eprice555-test-namespace
+            role: demo
+            secrets: |    
+             secret/data/test/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
+             secret/data/test/CICERO_API_KEY api-key | CICERO_API_KEY ;
+             secret/data/test/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
+             secret/data/test/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
+             secret/data/test/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
+
+#      - name: Import Secrets
+#         uses: hashicorp/vault-action@v2.4.0
+#         with:
+#          url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.cloud:8200/
+#         role: demo
+#          method: jwt
+#          namespace: admin/eprice555-test-namespace/
+ #         #caCertificate: ${{ secrets.VAULT_CA_CERT }}
+  #        secrets: |    
+   #         secret/data/test/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
+     #       secret/data/test/CICERO_API_KEY api-key | CICERO_API_KEY ;
+       #     secret/data/test/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
+   #         secret/data/test/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
+    #        secret/data/test/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
          #   secret/data/test/TEST_LOB_API_KEY api-key
          # secret/test TEST_CICERO_API_KEY | TEST_CICERO_API_KEY ;
          # secret/test TEST_STRIPE_SECRET_KEY | TEST_STRIPE_SECRET_KEY;
