@@ -38,11 +38,11 @@ jobs:
             namespace: admin/user21
             role: demo
             secrets: |    
-             secret/data/test/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
-             secret/data/test/CICERO_API_KEY api-key | CICERO_API_KEY ;
-             secret/data/test/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
-             secret/data/test/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
-             secret/data/test/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
+             secrets/hashi-corp-hackpod-test/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
+             secrets/hashi-corp-hackpod-test/CICERO_API_KEY api-key | CICERO_API_KEY ;
+             secrets/hashi-corp-hackpod-test/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
+             secrets/hashi-corp-hackpod-test/test/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
+             secrets/hashi-corp-hackpod-test/test/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
 
       - name: Install dependencies
         run: npm ci
