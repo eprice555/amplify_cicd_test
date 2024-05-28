@@ -1,8 +1,9 @@
 name: Unit Tests
+
 on:
   workflow_dispatch:
   pull_request:
-  permissions:
+permissions:
   contents: read
 #  id-token: write
   
@@ -36,11 +37,11 @@ jobs:
             namespace: admin/user21
             role: demo
             secrets: |    
-             data/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
-             data/CICERO_API_KEY api-key | CICERO_API_KEY ;
-             data/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
-             data/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
-             data/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
+             secrets/hashi-corp-hackpod-test/data/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
+             secrets/hashi-corp-hackpod-test/data/CICERO_API_KEY api-key | CICERO_API_KEY ;
+             secrets/hashi-corp-hackpod-test/data/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
+             secrets/hashi-corp-hackpod-test/data/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
+             secrets/hashi-corp-hackpod-test/data/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
              
 #      - name: Import Secrets
 #         uses: hashicorp/vault-action@v2.4.0
