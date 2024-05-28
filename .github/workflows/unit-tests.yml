@@ -1,9 +1,12 @@
 name: Unit Tests
+
 on:
   workflow_dispatch:
   pull_request:
 permissions:
   contents: read
+#  id-token: write
+  
 concurrency:
   group: >-
     ${{ github.workflow }} @ ${{ github.event.pull_request.head.label ||
@@ -13,6 +16,9 @@ jobs:
   test:
     if: ${{ github.repository == 'eprice555/amplify_cicd_test' }}
     runs-on: ubuntu-latest
+    permissions:
+        contents: read
+        id-token: write
     timeout-minutes: 5
     steps:
       - name: Check out repo
@@ -22,15 +28,50 @@ jobs:
         with:
           node-version-file: .node-version
           cache: npm
+
+      - name: Retrieve secret from Vault
+        uses: hashicorp/vault-action@v2.4.0
+        with:
+            method: jwt
+            url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.cloud:8200/
+            namespace: admin/user21
+            role: demo
+            secrets: |    
+             secrets/hashi-corp-hackpod-test/data/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
+             secrets/hashi-corp-hackpod-test/data/CICERO_API_KEY api-key | CICERO_API_KEY ;
+             secrets/hashi-corp-hackpod-test/data/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
+             secrets/hashi-corp-hackpod-test/data/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
+             secrets/hashi-corp-hackpod-test/data/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
+             
+#      - name: Import Secrets
+#         uses: hashicorp/vault-action@v2.4.0
+#         with:
+#          url: https://vault-public-vault-22deb760.8ee49bbe.z1.hashicorp.cloud:8200/
+#         role: demo
+#          method: jwt
+#          namespace: admin/eprice555-test-namespace/
+ #         #caCertificate: ${{ secrets.VAULT_CA_CERT }}
+  #        secrets: |    
+   #         secret/data/test/TEST_LOB_API_KEY api-key | TEST_LOB_API_KEY ;
+     #       secret/data/test/CICERO_API_KEY api-key | CICERO_API_KEY ;
+       #     secret/data/test/TEST_STRIPE_SECRET_KEY api-key | TEST_STRIPE_SECRET_KEY ;
+   #         secret/data/test/AUTH0_AUDIENCE api-key | AUTH0_AUDIENCE ;
+    #        secret/data/test/AUTH0_DOMAIN api-key | AUTH0_DOMAIN ;
+         #   secret/data/test/TEST_LOB_API_KEY api-key
+         # secret/test TEST_CICERO_API_KEY | TEST_CICERO_API_KEY ;
+         # secret/test TEST_STRIPE_SECRET_KEY | TEST_STRIPE_SECRET_KEY;
+         # secret/test AUTH0_AUDIENCE | AUTH0_AUDIENCE ;
+         # secret/test AUTH0_DOMAIN | AUTH0_DOMAIN ;
+          
       - name: Install dependencies
         run: npm ci
       - name: Run tests
         run: npm test -- server/__tests__/unit/
         env:
-          CICERO_API_KEY: '${{ secrets.TEST_CICERO_API_KEY }}'
-          LOB_API_KEY: '${{ secrets.TEST_LOB_API_KEY }}'
-          STRIPE_SECRET_KEY: '${{ secrets.TEST_STRIPE_SECRET_KEY }}'
+          CICERO_API_KEY: ${{ env.CICERO_API_KEY }}
+          LOB_API_KEY: ${{ env.LOB_API_KEY }}
+          STRIPE_SECRET_KEY: ${{ env.STRIPE_SECRET_KEY }}
           SERVER_PORT: 8080
-          CLIENT_ORIGIN_URL: 'http://localhost:8080'
-          AUTH0_AUDIENCE: your_Auth0_identifier_value
-          AUTH0_DOMAIN: your_Auth0_domain
+          CLIENT_ORIGIN_URL: http://localhost:8080
+          AUTH0_AUDIENCE: ${{ env.AUTH0_AUDIENCE }}
+          AUTH0_DOMAIN: ${{ env.AUTH0_DOMAIN }}
