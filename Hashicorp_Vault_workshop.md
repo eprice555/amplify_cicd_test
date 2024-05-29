@@ -84,8 +84,8 @@ We will need to create the following secrets, modify the example above to fit th
 
 #### Read Static secrets
 
-    vault kv get -mount=secrets/hashi-corp-hackpod/ ait-12345/db
-    vault kv get -mount=secrets/hashi-corp-hackpod/ ait-56789/db
+    vault kv get secrets/hashi-corp-hackpod/ TEST_AUTH0_DOMAIN
+    vault kv get secrets/hashi-corp-hackpod/ ait-56789/db
 
 
 ## Vault Policies
