@@ -72,7 +72,10 @@
 #### *Add Static secrets*
 
      vault kv put secrets/hashi-corp-hackpod/SECRETE_VARIABLE api-key=supersecret
-     vault kv put secrets/hashi-corp-hackpod/SECRETE_VARIABLE api-key=supersecret
+
+     For example:
+     vault kv put secrets/hashi-corp-hackpod/TEST_AUTH0_DOMAIN api-key=“https://amplify-app-production.herokuapp.com/“
+     vault kv put secrets/hashi-corp-hackpod/TEST_AUTH0_AUDIENCE api-key="dev-3huf08ov.us.auth0.com"
      
 We will need to create the following secrets, modify the example above to fit that:
 
@@ -84,7 +87,7 @@ We will need to create the following secrets, modify the example above to fit th
 
 #### Read Static secrets
 
-    vault kv get secrets/hashi-corp-hackpod/ TEST_AUTH0_DOMAIN
+    vault kv get secrets/hashi-corp-hackpod/TEST_AUTH0_DOMAIN
     vault kv get secrets/hashi-corp-hackpod/ ait-56789/db
 
 
@@ -106,7 +109,9 @@ We will need to create the following secrets, modify the example above to fit th
     }
     EOF
 
-
+   #### Add the policy to Vault
+   
+   vault policy write app-policy app-policy.hcl
 
 ## Modify the following actions from your forked resporitory to retrieve the secrets we created and use them:
 
