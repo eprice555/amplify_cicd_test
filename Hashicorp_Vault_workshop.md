@@ -71,8 +71,8 @@
 
 #### *Add Static secrets*
 
-     vault kv put -mount=secrets/hashi-corp-hackpod/SECRETE_VARIABLE api-key=supersecret
-     vault kv put -mount=secrets/hashi-corp-hackpod/SECRETE_VARIABLE api-key=supersecret
+     vault kv put secrets/hashi-corp-hackpod/SECRETE_VARIABLE api-key=supersecret
+     vault kv put secrets/hashi-corp-hackpod/SECRETE_VARIABLE api-key=supersecret
      
 We will need to create the following secrets, modify the example above to fit that:
 
